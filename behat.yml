@@ -1,0 +1,5 @@
+default:
+  suites:
+    default_suite:
+      env:
+        path: .env.testing

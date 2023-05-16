@@ -16,6 +16,7 @@
         "symfony/messenger": "^6.2"
     },
     "require-dev": {
+        "behat/behat": "^3.13",
         "fakerphp/faker": "^1.9.1",
         "laravel/pint": "^1.0",
         "laravel/sail": "^1.21",
