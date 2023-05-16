@@ -161,6 +161,11 @@ return [
          */
 
         /*
+         * Module Service Providers...
+         */
+        \Src\Customer\Application\Providers\CustomerServiceProvider::class,
+
+        /*
          * Application Service Providers...
          */
         App\Providers\AppServiceProvider::class,
