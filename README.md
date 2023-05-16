@@ -1,48 +1,172 @@
-# Laravel CRUD Test Assignment
+# Laravel CRUD Test 
 
-Please read each note very carefully!
-Feel free to add/change project structure to a clean architecture to your view.
 
-Create a simple CRUD application with Laravel that implements the below model:
+## Patterns and features
+
+✅ DDD
+
+✅ TDD (Not enough)
+
+✅ BDD
+
+✅ CQRS
+
+✅ Dockerized
+
+✅ PHP 8.2.x
+
+## Validations:
+
+✅ During Create; validate the phone number to be a valid mobile number only
+
+✅ A Valid email and a valid bank account number must be checked before submitting the form.
+
+✅ Customers must be unique in database: By Firstname, Lastname and DateOfBirth.
+
+✅ Email must be unique in the database.
+
+## Storage
+✅ Store the phone number in a database with minimized space storage.
+
+
+
+## Presentation
+✅ Swagger
+
+✅ Web UI
+
+
+
+
+## Project Structure (DDD):
+
+
 ```
-Customer {
-	Firstname
-	Lastname
-	DateOfBirth
-	PhoneNumber
-	Email
-	BankAccountNumber
-}
+src
+├── Customer
+│   ├── Application
+│   │   ├── Providers
+│   │   ├── Resources
+│   │   ├── Rules
+│   │   └── UseCases
+│   │       ├── Commands
+│   │       │   ├── Create
+│   │       │   ├── Delete
+│   │       │   └── Update
+│   │       ├── Queries
+│   │       │   ├── Get
+│   │       │   └── Listing
+│   │       └── Subscriber
+│   ├── Domain
+│   ├── Infrastructure
+│   │   └── Elequent
+│   │       ├── Factories
+│   │       ├── Models
+│   │       └── Repositories
+│   └── Presentation
+│       ├── API
+│       │   └── V1
+│       │       ├── Controllers
+│       │       └── Requests
+│       ├── CLI
+│       └── HTTP
+│           └── Controllers
+└── Shared
+    ├── Domain
+    │   ├── Aggregate
+    │   ├── Bus
+    │   │   ├── Command
+    │   │   ├── Event
+    │   │   └── Query
+    │   ├── Criteria
+    │   └── ValueObject
+    └── Infrastructure
+        ├── Bus
+        │   └── Messenger
+        └── Eloquent
+
 ```
-## Practices and patterns (Must):
 
-- [TDD](https://en.wikipedia.org/wiki/Test-driven_development)
-- [DDD](https://en.wikipedia.org/wiki/Domain-driven_design)
-- [BDD](https://en.wikipedia.org/wiki/Behavior-driven_development)
-- [Clean architecture](https://github.com/jasontaylordev/CleanArchitecture)
-- [CQRS](https://en.wikipedia.org/wiki/Command%E2%80%93query_separation#Command_query_responsibility_separation) pattern ([Event sourcing](https://en.wikipedia.org/wiki/Domain-driven_design#Event_sourcing)).
-- Clean git commits that shows your work progress.
-- Use PHP 8.2.x only
+## TDD Results:
 
-### Validations (Must)
 
-- During Create; validate the phone number to be a valid *mobile* number only (Please use [Google LibPhoneNumber](https://github.com/google/libphonenumber) to validate number at the backend).
 
-- A Valid email and a valid bank account number must be checked before submitting the form.
+```shell
+  PASS  Tests\Feature\Controllers\Customer\v1\CreateCustomerControllerTest
+  ✓ create customer with valid request                                                                               0.92s  
 
-- Customers must be unique in database: By `Firstname`, `Lastname` and `DateOfBirth`.
+   PASS  Tests\Feature\Controllers\Customer\v1\DeleteCustomerControllerTest
+  ✓ delete customer                                                                                                  0.14s  
 
-- Email must be unique in the database.
+   PASS  Tests\Feature\Controllers\Customer\v1\GetCustomerByIdControllerTest
+  ✓ get customer by id                                                                                               0.03s  
 
-### Storage (Must)
+   PASS  Tests\Feature\Controllers\Customer\v1\UpdateCustomerControllerTest
+  ✓ update customer                                                                                                  0.03s  
 
-- Store the phone number in a database with minimized space storage (choose `varchar`/`string`, or `bigInt unsigned` whichever store less space).
+   PASS  Tests\Feature\Models\Customer\CustomerTest
+  ✓ insert data                                                                                                      0.02s  
 
-### Delivery (Must)
-- Please clone this repository in a new github repository in private mode and share with ID: `mason-chase` in private mode on github.com, make sure you do not erase my commits and then create a [pull request](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests) (code review).
-- Docker-compose project that loads database service automatically with `docker-compose up`
+  Tests:    5 passed (13 assertions)
+  Duration: 1.36s
+```
 
-## Presentation (Must)
-- Web UI.
-- Swagger
+
+## BDD Results:
+
+```shell
+Feature: Customer Management
+    In order to manage customers
+    As an API user
+    I want to be able to perform CRUD operations on customers
+
+  Scenario: Create customer                              # features/customer.feature:6
+    Given I generate a random customer payload           # FeatureContext::generateRandomCustomerPayload()
+    And I send a POST request to "/api/v1/customer"      # FeatureContext::sendPostRequest()
+    Then the response status code should be 200          # FeatureContext::assertResponseStatusCode()
+    And the response should be in JSON                   # FeatureContext::assertResponseIsJson()
+    And the response body should have a "customer" key   # FeatureContext::assertResponseBodyHasKey()
+    And the "customer" key should have a "id" field      # FeatureContext::theKeyShouldHaveAField()
+    And I store the value of "id" statically as "userId" # FeatureContext::iStoreTheValueOfStaticallyAs()
+
+  Scenario: Get customer info by ID                         # features/customer.feature:16
+    And I send a GET request to "/api/v1/customer/{userId}" # FeatureContext::sendGetRequest()
+    Then the response status code should be 200             # FeatureContext::assertResponseStatusCode()
+    And the response should be in JSON                      # FeatureContext::assertResponseIsJson()
+    And the response body should have a "customer" key      # FeatureContext::assertResponseBodyHasKey()
+
+  Scenario: List customers                              # features/customer.feature:22
+    Given I send a GET request to "/api/v1/customer"    # FeatureContext::sendGetRequest()
+    Then the response status code should be 200         # FeatureContext::assertResponseStatusCode()
+    And the response should be in JSON                  # FeatureContext::assertResponseIsJson()
+    And the response body should have a "customers" key # FeatureContext::assertResponseBodyHasKey()
+
+  Scenario: Update customer                                 # features/customer.feature:28
+    Given I generate a random updated customer payload      # FeatureContext::generateRandomUpdatedCustomerPayload()
+    And I send a PUT request to "/api/v1/customer/{userId}" # FeatureContext::sendPutRequest()
+    Then the response status code should be 200             # FeatureContext::assertResponseStatusCode()
+    And the response should be in JSON                      # FeatureContext::assertResponseIsJson()
+    And the response body should have a "customer" key      # FeatureContext::assertResponseBodyHasKey()
+
+  Scenario: Delete customer                                    # features/customer.feature:35
+    And I send a DELETE request to "/api/v1/customer/{userId}" # FeatureContext::sendDeleteRequest()
+    Then the response status code should be 204                # FeatureContext::assertResponseStatusCode()
+    And the response should be empty                           # FeatureContext::assertResponseIsEmpty()
+
+5 scenarios (5 passed)
+23 steps (23 passed)
+```
+
+## API Documentation
+This project utilizes the power of **Swagger** to enhance the development and documentation process. Swagger, now known as OpenAPI 3, is an industry-standard specification for building and documenting RESTful APIs.
+
+![Swagger](storage/api-docs/swagger.png)
+
+## Requirements:
+
+- PHP 8.2.x
+- darkaonline/l5-swagger (documentation)
+- propaganistas/laravel-phone (validate phone)
+- laravel/sail (dockerize)
+- behat/behat (BDD)
 
