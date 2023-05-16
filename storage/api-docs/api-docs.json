@@ -1,0 +1,319 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Laravel CRUD Test API",
+        "version": "1.0"
+    },
+    "paths": {
+        "/api/v1": {},
+        "/api/v1/customer": {
+            "get": {
+                "tags": [
+                    "Customers"
+                ],
+                "summary": "List of customers",
+                "description": "Retrieves a list of customers",
+                "operationId": "searchCustomers",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CustomersResponse1"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Customers"
+                ],
+                "summary": "Create a customer",
+                "description": "Create a customer",
+                "operationId": "caeabe01a34425eb26d4a2369c5ccbaa",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CustomerRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "customer": {
+                                            "properties": {
+                                                "id": {
+                                                    "description": "The ID of the created customer",
+                                                    "type": "string",
+                                                    "example": "dd403251-ef22-4755-b08f-2dfc6d99bdfa"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/customer/{id}": {
+            "get": {
+                "tags": [
+                    "Customers"
+                ],
+                "summary": "Get customer by ID",
+                "description": "Get customer by ID",
+                "operationId": "d61f90cc661fe536eaa86f43d29948b0",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Customer ID",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "customer": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/CustomersResponse"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Customers"
+                ],
+                "summary": "Update customer",
+                "description": "Update customer",
+                "operationId": "eb35ec84c0113030482b2384405e9e1a",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateCustomerRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "customer": {
+                                            "properties": {
+                                                "id": {
+                                                    "description": "The ID of the created customer",
+                                                    "type": "string",
+                                                    "example": "dd403251-ef22-4755-b08f-2dfc6d99bdfa"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Customers"
+                ],
+                "summary": "Delete a customer",
+                "description": "Delete a customer",
+                "operationId": "deleteCustomer",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the customer to delete",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "CustomerRequest": {
+                "required": [
+                    "first_name",
+                    "last_name",
+                    "date_of_birth",
+                    "email",
+                    "bank_account_number",
+                    "phone_number"
+                ],
+                "properties": {
+                    "first_name": {
+                        "type": "string",
+                        "example": "example"
+                    },
+                    "last_name": {
+                        "type": "string",
+                        "example": "example"
+                    },
+                    "date_of_birth": {
+                        "type": "string",
+                        "format": "date",
+                        "example": "2020-01-20"
+                    },
+                    "email": {
+                        "type": "string",
+                        "format": "email",
+                        "example": "example@example.com"
+                    },
+                    "bank_account_number": {
+                        "type": "integer",
+                        "example": 1234567890
+                    },
+                    "phone_number": {
+                        "type": "string",
+                        "example": "+989121234567"
+                    }
+                },
+                "type": "object"
+            },
+            "Customer": {
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "firstName": {
+                        "type": "string"
+                    },
+                    "lastName": {
+                        "type": "string"
+                    },
+                    "dateOfBirth": {
+                        "type": "string",
+                        "format": "date"
+                    },
+                    "phoneNumber": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string",
+                        "format": "email"
+                    },
+                    "bankAccountNumber": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "CustomersResponse1": {
+                "properties": {
+                    "customers": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Customer"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "CustomersResponse": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": "dd403251-ef22-4755-b08f-2dfc6d99bdfa"
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Mehdi Jalali"
+                    }
+                },
+                "type": "object"
+            },
+            "UpdateCustomerRequest": {
+                "required": [
+                    "first_name",
+                    "last_name",
+                    "date_of_birth",
+                    "email",
+                    "bank_account_number",
+                    "phone_number"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "example": "dd403251-ef22-4755-b08f-2dfc6d99bdfa"
+                    },
+                    "first_name": {
+                        "type": "string",
+                        "example": "example"
+                    },
+                    "last_name": {
+                        "type": "string",
+                        "example": "example"
+                    },
+                    "date_of_birth": {
+                        "type": "string",
+                        "format": "date",
+                        "example": "2020-01-20"
+                    },
+                    "email": {
+                        "type": "string",
+                        "format": "email",
+                        "example": "example@example.com"
+                    },
+                    "bank_account_number": {
+                        "type": "integer",
+                        "example": 1234567890
+                    },
+                    "phone_number": {
+                        "type": "string",
+                        "example": "+989121234567"
+                    }
+                },
+                "type": "object"
+            }
+        }
+    }
+}
