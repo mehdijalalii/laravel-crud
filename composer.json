@@ -30,7 +30,10 @@
             "Src\\": "src/",
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/"
-        }
+        },
+        "files": [
+            "app/Helpers/app.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {
