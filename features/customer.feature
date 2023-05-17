@@ -11,7 +11,7 @@ Scenario: Create customer
     And the response body should have a "customer" key
     And the "customer" key should have a "id" field
     And I store the value of "id" statically as "userId"
-
+    And send response
 
 Scenario: Get customer info by ID
     And I send a GET request to "/api/v1/customer/{userId}"
