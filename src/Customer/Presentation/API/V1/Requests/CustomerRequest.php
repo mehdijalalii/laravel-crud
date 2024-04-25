@@ -31,7 +31,7 @@ class CustomerRequest extends FormRequest
             return $this->getPutValidationRules();
         }
 
-        return [];
+        return $this->getCommonValidationRules();
     }
 
     /**
@@ -45,10 +45,11 @@ class CustomerRequest extends FormRequest
             'first_name' => 'required',
             'last_name' => 'required',
             'bank_account_number' => ['required', new BankAccountNumberRule],
-            'phone_number' => ['required', 'phone'],
+            'phone_number' => ['required', 'phone:mobile'],
             'date_of_birth' => ['required','date', new UniqueCustomer],
         ];
     }
+
 
     /**
      * Get the validation rules for POST method.
